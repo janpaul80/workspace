@@ -1,6 +1,7 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 COPY package.json ./
+ENV NODE_ENV=development
 RUN npm install --legacy-peer-deps
 COPY index.html index.tsx App.tsx types.ts vite.config.ts tsconfig.json metadata.json ./
 COPY components/ ./components/
