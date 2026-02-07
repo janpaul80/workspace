@@ -48,9 +48,10 @@ RUN npm install --production
 # Rebuild node-pty for this platform
 RUN npm rebuild node-pty
 
-# Copy built files from builder
+# Copy all source files from builder (including services/ subdirectory)
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/*.ts ./
+COPY --from=builder /app/services ./services
 
 # Create workspace directory
 RUN mkdir -p /app/workspace

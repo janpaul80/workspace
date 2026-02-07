@@ -8,8 +8,20 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# Build args for Vite env vars (injected at build time via define{})
+ARG GEMINI_API_KEY=""
+ARG SUPABASE_URL=""
+ARG SUPABASE_ANON_KEY=""
+ARG BACKEND_URL=""
+
+# Make build args available as env vars for Vite loadEnv
+ENV GEMINI_API_KEY=${GEMINI_API_KEY}
+ENV SUPABASE_URL=${SUPABASE_URL}
+ENV SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+ENV BACKEND_URL=${BACKEND_URL}
+
 # Copy package files
-COPY package.json ./
+COPY package.json package-lock.json* ./
 
 # Install dependencies
 RUN npm install
