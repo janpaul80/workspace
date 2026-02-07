@@ -1,0 +1,30 @@
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Dependencies
+node_modules/
+jspm_packages/
+server/node_modules/
+
+# Build outputs
+dist/
+build/
+out/
+server/dist/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+.docker/

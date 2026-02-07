@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini-IDE Workspace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+            margin: 0;
+            overflow: hidden;
+        }
+        .v0-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        }
+        .chat-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chat-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .chat-scroll::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius: 10px;
+        }
+        
+        /* Swirl/Orbit Animation */
+        @keyframes orbit-rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .orbit-ring {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .orbit-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .rotating-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: orbit-rotate 60s linear infinite;
+        }
+
+        .orbit-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Coding Animation */
+        @keyframes codeScroll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
+        .code-scroller.active {
+            animation: codeScroll 15s linear infinite;
+        }
+        .code-line {
+            height: 8px;
+            margin-bottom: 6px;
+            border-radius: 2px;
+            background: #1a1a1a;
+        }
+
+        /* Logo Color Shifting Animation - Strictly Greyish, White, Orange */
+        @keyframes logoColorShift {
+            0% { fill: #404040; }       /* Greyish */
+            33% { fill: #ffffff; }      /* White */
+            66% { fill: #FD6412; }      /* Brand Orange */
+            100% { fill: #404040; }     /* Back to Greyish */
+        }
+        @keyframes logoPathShift {
+            0% { fill: #ffffff; }      /* White on Grey */
+            33% { fill: #FD6412; }      /* Orange on White */
+            66% { fill: #ffffff; }      /* White on Orange */
+            100% { fill: #ffffff; }     /* Back to White */
+        }
+        .animate-logo-colors rect {
+            animation: logoColorShift 8s ease-in-out infinite;
+        }
+        .animate-logo-colors path {
+            animation: logoPathShift 8s ease-in-out infinite;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.40.0",
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+# ============================================================
+# HeftCoder Workspace - Docker Compose
+# Designed for Coolify deployment
+# ============================================================
+version: '3.8'
+
+services:
+  # --------------------------------------------------------
+  # Frontend: Vite-built React app served via Nginx
+  # --------------------------------------------------------
+  workspace-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: heftcoder-frontend
+    ports:
+      - "${FRONTEND_PORT:-80}:80"
+    depends_on:
+      - workspace-backend
+    restart: unless-stopped
+    networks:
+      - heftcoder-net
+
+  # --------------------------------------------------------
+  # Backend: Express + WebSocket + node-pty
+  # --------------------------------------------------------
+  workspace-backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: heftcoder-backend
+    ports:
+      - "${BACKEND_PORT:-3001}:3001"
+    environment:
+      - NODE_ENV=production
+      - BACKEND_PORT=3001
+      - WORKSPACE_DIR=/app/workspace
+      # Microsoft Studio / Azure AI
+      - MICROSOFT_STUDIO_API_KEY=${MICROSOFT_STUDIO_API_KEY}
+      - MICROSOFT_STUDIO_API_URL=${MICROSOFT_STUDIO_API_URL:-https://models.inference.ai.azure.com}
+      - MICROSOFT_STUDIO_MODEL=${MICROSOFT_STUDIO_MODEL:-gpt-4o}
+      # OpenClaw Orchestrator
+      - OPENCLAW_BASE_URL=http://openclaw:8000
+      - MISTRAL_API_KEY=${MISTRAL_API_KEY}
+      # Workspace
+      - WORKSPACE_BASE_URL=${WORKSPACE_BASE_URL:-https://workspace.heftcoder.icu}
+    volumes:
+      - workspace-data:/app/workspace
+    restart: unless-stopped
+    networks:
+      - heftcoder-net
+
+  # --------------------------------------------------------
+  # OpenClaw: AI Agent Orchestrator
+  # --------------------------------------------------------
+  openclaw:
+    image: ghcr.io/openclaw/openclaw:latest
+    container_name: heftcoder-openclaw
+    ports:
+      - "${OPENCLAW_PORT:-8000}:8000"
+    environment:
+      - MISTRAL_API_KEY=${MISTRAL_API_KEY}
+      - OPENCLAW_HOST=0.0.0.0
+      - OPENCLAW_PORT=8000
+    restart: unless-stopped
+    networks:
+      - heftcoder-net
+
+# --------------------------------------------------------
+# Volumes
+# --------------------------------------------------------
+volumes:
+  workspace-data:
+    driver: local
+
+# --------------------------------------------------------
+# Networks
+# --------------------------------------------------------
+networks:
+  heftcoder-net:
+    driver: bridge

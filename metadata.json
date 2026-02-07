@@ -1,0 +1,8 @@
+{
+  "name": "Gemini-IDE Workspace",
+  "description": "A high-fidelity clone of the v0 IDE workspace featuring integrated Gemini intelligence, Veo video generation, image analysis, and real-time TTS.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
